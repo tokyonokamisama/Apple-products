@@ -332,9 +332,9 @@ export const PRODUCTS = [
 
   // ───────────── Home ─────────────
   {
-    id: 'homepod', cat: 'home', name: 'HomePod', badge: '新款',
+    id: 'homepod', cat: 'home', name: 'HomePod', badge: '第二代',
     tagline: '饱满的室内音场与空间音频。',
-    price: 2699, release: '2026 年 10 月',
+    price: 2699, release: '2023 年 1 月',
     colors: [{ name: '白色', hex: '#ededeb' }, { name: '午夜色', hex: '#2c2e33' }],
     highlights: ['空间音频', '房间感知自动调音', '两台可组立体声', '可作家庭中枢'],
     specs: { 音频: '高振幅低音单元 + 高音单元阵列', 功能: '房间感知、立体声配对、家庭中枢', 连接: 'Wi‑Fi、隔空播放' },

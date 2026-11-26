@@ -3,26 +3,29 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>果选 · Apple 全线产品选购指南</title>
-  <meta name="description" content="独立的 Apple 全线产品中文选购指南：iPhone、Mac、iPad、Apple Watch、AirPods、Vision Pro 与 HomePod，国行官网价格、官方产品图、iPhone/iPad 上可 3D/AR 查看，支持并排对比与智能推荐。">
-  <meta name="theme-color" content="#ffffff">
+  <title>果选 · Apple 选购发布会</title>
+  <meta name="description" content="像发布会一样看懂每一台 Apple 设备：官方 3D 模型实时旋转，优点和缺点都讲清楚，国行官网价格，并排对比与智能推荐。">
+  <meta name="theme-color" content="#000000">
+  <meta name="color-scheme" content="dark">
   <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="果选">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%2337a2ff'/%3E%3Cstop offset='.5' stop-color='%238b6bff'/%3E%3Cstop offset='1' stop-color='%23ff6fae'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='32' cy='32' r='26' fill='url(%23g)'/%3E%3C/svg%3E">
+  <link rel="preload" href="assets/3d/iphone-duo-closed.glb" as="fetch" crossorigin>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <a class="skip" href="#lineup">跳到产品列表</a>
+  <a class="skip" href="#keynote">跳到产品章节</a>
 
   <header class="nav" id="nav">
     <div class="nav-inner">
       <a class="brand" href="#top" aria-label="果选 首页">
         <span class="brand-orb" aria-hidden="true"></span>
         <span class="brand-name">果选</span>
-        <span class="brand-sub">Apple 选购指南</span>
+        <span class="brand-sub">Apple 选购发布会</span>
       </a>
       <nav class="nav-links" aria-label="主导航">
-        <a href="#cats">品类</a>
+        <a href="#keynote">发布会</a>
         <a href="#lineup">全部产品</a>
         <a href="#finder">帮我选</a>
         <a href="#tips">省钱攻略</a>
@@ -32,53 +35,67 @@
         <span>搜索</span><kbd>/</kbd>
       </button>
     </div>
+    <div class="nav-progress" id="navProgress"></div>
   </header>
 
   <main id="top">
-    <!-- 英雄区 -->
-    <section class="hero" id="hero">
-      <div class="hero-inner">
-        <div class="hero-copy">
-          <p class="eyebrow"><span class="pulse"></span>2026 冬季版 · 价格核对于 <span data-checked></span></p>
-          <h1>选对你的<br><span class="grad">下一台 Apple</span></h1>
-          <p class="lead">收录 <b data-count></b> 款国行在售产品，价格核对自 Apple 官网。官方产品图可放大细看，在 iPhone 和 iPad 上还能用 AR 查看官方 3D 模型。</p>
-          <div class="hero-cta">
-            <a class="btn btn-light" href="#lineup">浏览全部产品</a>
-            <a class="btn btn-ghost-light" href="#finder">30 秒帮我选</a>
+    <!-- 开场：滚动驱动的 3D -->
+    <section class="intro" id="intro" aria-label="开场">
+      <div class="intro-sticky">
+        <div class="intro-glow" aria-hidden="true"></div>
+        <div class="intro-stage stage-host" id="introStage"></div>
+        <div class="intro-loading" id="introLoading"><span></span></div>
+        <div class="intro-copy">
+          <div class="beat" data-beat="0">
+            <p class="eyebrow"><span class="pulse"></span>2026 冬季 · 官网价格核对于 <span data-checked></span></p>
+            <h1><span class="grad">iPhone Duo</span></h1>
+            <p class="beat-sub">第一台折叠 iPhone。</p>
           </div>
-        </div>
-        <div class="hero-stage" id="heroStage">
-          <div class="hero-glow" id="heroGlow" aria-hidden="true"></div>
-          <div class="hero-imgs" id="heroImgs"></div>
-          <div class="hero-card" id="heroCard">
-            <div class="hero-card-text">
-              <span class="tag" id="heroTag"></span>
-              <strong id="heroName"></strong>
-              <span class="hero-price" id="heroPrice"></span>
+          <div class="beat" data-beat="1">
+            <h2>展开，<br>就是 7.6 英寸。</h2>
+            <p class="beat-sub">合上能单手回消息，打开能看清整页 PDF。</p>
+          </div>
+          <div class="beat warn" data-beat="2">
+            <h2>但它要 ¥15,999，<br>重 254 克，<br>还没有长焦。</h2>
+            <p class="beat-sub">官网不会这样介绍它。我们会。</p>
+          </div>
+          <div class="beat" data-beat="3">
+            <h2>每台 Apple 设备，<br><span class="grad">优点和代价</span>都讲清楚。</h2>
+            <p class="beat-sub"><b data-count></b> 款国行在售产品 · <b>21</b> 个官方 3D 模型 · 真实缺点 · 买它的理由</p>
+            <div class="hero-cta">
+              <a class="btn btn-light" href="#keynote">开始看发布会</a>
+              <a class="btn btn-ghost" href="#finder">30 秒帮我选</a>
             </div>
-            <button class="btn btn-small btn-light" id="heroOpen">查看</button>
           </div>
-          <div class="hero-dots" id="heroDots" role="tablist" aria-label="精选产品"></div>
         </div>
+        <div class="scroll-cue" id="scrollCue" aria-hidden="true"><span></span>向下滚动</div>
       </div>
     </section>
 
-    <!-- 品类 -->
-    <section class="section" id="cats">
-      <div class="section-head reveal">
-        <p class="kicker">按品类逛</p>
-        <h2>从你需要的那一类开始。</h2>
+    <!-- 宣言 -->
+    <section class="manifesto" id="manifesto">
+      <p class="m-line reveal">官网只告诉你<span class="hl-good">它有多好</span>。</p>
+      <p class="m-line reveal">我们还会告诉你<span class="hl-warn">它差在哪</span>，</p>
+      <p class="m-line reveal">以及为什么<span class="grad">依然值得买</span>。</p>
+      <div class="principles">
+        <div class="pr reveal"><b>✓ 真实优点</b><p>每条优点都对应官网规格里的数字，不写空话。</p></div>
+        <div class="pr reveal"><b>✗ 不回避缺点</b><p>重量、续航、接口、价格，每款至少列出三条代价。</p></div>
+        <div class="pr reveal"><b>→ 买它的理由</b><p>讲清楚它适合谁、为什么值得，以及谁应该选别的。</p></div>
       </div>
-      <div class="bento" id="bento"></div>
     </section>
 
-    <!-- 产品列表 -->
+    <!-- 发布会章节 -->
+    <section class="keynote" id="keynote" aria-label="产品章节">
+      <div class="chapter-nav" id="chapterNav"><div class="cn-inner" id="cnInner"></div></div>
+      <div id="chapters"></div>
+    </section>
+
+    <!-- 全部产品 -->
     <section class="section" id="lineup">
       <div class="section-head reveal">
         <p class="kicker">全部产品</p>
-        <h2>在售产品一览，<span class="muted-h">可按品类、预算筛选。</span></h2>
+        <h2>一眼看完 <span data-count></span> 款，<span class="muted-h">按预算筛一筛。</span></h2>
       </div>
-
       <div class="toolbar" id="toolbar">
         <div class="seg" id="seg" role="tablist" aria-label="品类筛选"><span class="seg-pill" aria-hidden="true"></span></div>
         <div class="filters">
@@ -91,22 +108,20 @@
               <option value="rec">推荐排序</option>
               <option value="asc">价格从低到高</option>
               <option value="desc">价格从高到低</option>
-              <option value="new">最新发布</option>
+              <option value="value">性价比优先</option>
             </select>
           </div>
         </div>
       </div>
-
-      <div class="paths" id="paths"></div>
       <div class="grid" id="grid" aria-live="polite"></div>
-      <p class="empty" id="empty" hidden>这个预算下暂时没有该品类的产品。试试调高预算上限，或者看看其他品类。</p>
+      <p class="empty" id="empty" hidden>这个预算下暂时没有该品类的产品。试试调高预算上限。</p>
     </section>
 
     <!-- 帮我选 -->
     <section class="section" id="finder">
       <div class="section-head reveal">
         <p class="kicker">帮我选</p>
-        <h2>回答三个问题，<span class="muted-h">给你排出最合适的三款。</span></h2>
+        <h2>回答三个问题，<span class="muted-h">排出最合适的三款。</span></h2>
       </div>
       <div class="finder reveal" id="finderCard"></div>
     </section>
@@ -125,73 +140,79 @@
     <div class="footer-inner">
       <div>
         <div class="brand"><span class="brand-orb" aria-hidden="true"></span><span class="brand-name">果选</span></div>
-        <p class="muted">独立的中文选购指南，与 Apple Inc. 无关联。产品名称为其各自所有者的商标。</p>
+        <p class="muted">独立的中文选购指南，与 Apple Inc. 无关联。</p>
       </div>
-      <p class="muted small">国行起售价核对自 <a href="https://www.apple.com.cn/" target="_blank" rel="noopener">Apple 中国大陆官网</a>在线商店（<span data-checked></span>），不含教育优惠、国家补贴和以旧换新折抵，可能随官方调价变化。产品图片与 3D/AR 模型版权归 Apple 所有，仅用于选购参考。</p>
+      <p class="muted small">价格核对自 <a href="https://www.apple.com.cn/" target="_blank" rel="noopener">Apple 中国大陆官网</a>在线商店（<span data-checked></span>），不含教育优惠、国家补贴和以旧换新。规格数字来自官网技术规格页；评分与优缺点是本站观点。3D 模型由 Apple 官方 AR 模型转换，产品图片与模型版权归 Apple 所有，仅用于选购参考。产品名称为其各自所有者的商标。</p>
     </div>
   </footer>
 
   <!-- 对比托盘 -->
   <div class="tray" id="tray" hidden>
     <div class="tray-items" id="trayItems"></div>
-    <button class="btn btn-small btn-plain" id="trayClear">清空</button>
-    <button class="btn btn-small btn-dark" id="trayGo">开始对比</button>
+    <button class="btn btn-small btn-ghost" id="trayClear">清空</button>
+    <button class="btn btn-small btn-light" id="trayGo">开始对比</button>
   </div>
 
-  <!-- 详情 -->
+  <!-- 评测页 -->
   <div class="sheet" id="detail" role="dialog" aria-modal="true" aria-labelledby="dName" hidden>
     <div class="sheet-backdrop" data-close></div>
     <div class="sheet-panel">
-      <div class="stage" id="stage">
-        <div class="stage-top">
-          <button class="icon-btn" data-close aria-label="关闭">
-            <svg viewBox="0 0 24 24" width="18" height="18"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-          </button>
-          <div class="stage-right">
+      <div class="r-stage" id="rStage">
+        <div class="r-top">
+          <button class="icon-btn" data-close aria-label="关闭"><svg viewBox="0 0 24 24" width="18" height="18"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+          <div class="r-tabs" id="rTabs" role="tablist">
+            <button role="tab" data-rt="3d" class="on">3D 模型</button>
+            <button role="tab" data-rt="photo">实拍图</button>
+          </div>
+          <div class="r-right">
             <span id="arSlot"></span>
             <button class="icon-btn" id="prevP" aria-label="上一款"><svg viewBox="0 0 24 24" width="18" height="18"><path d="m15 5-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
             <button class="icon-btn" id="nextP" aria-label="下一款"><svg viewBox="0 0 24 24" width="18" height="18"><path d="m9 5 7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
           </div>
         </div>
-        <div class="viewer" id="viewer" aria-label="产品图片，点按放大">
+        <div class="r-3d stage-host" id="r3d"></div>
+        <div class="r-loading" id="rLoading"><span></span></div>
+        <div class="viewer" id="viewer" hidden>
           <div class="viewer-track" id="track"></div>
           <button class="viewer-arrow prev" id="vPrev" aria-label="上一张"><svg viewBox="0 0 24 24" width="20" height="20"><path d="m15 5-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
           <button class="viewer-arrow next" id="vNext" aria-label="下一张"><svg viewBox="0 0 24 24" width="20" height="20"><path d="m9 5 7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
           <span class="viewer-count" id="vCount"></span>
-          <span class="viewer-hint" id="vHint">点按放大 · 左右滑动切换</span>
         </div>
-        <div class="thumbs" id="thumbs" role="tablist" aria-label="图片列表"></div>
+        <div class="thumbs" id="thumbs" hidden></div>
+        <div class="r-bottom" id="rBottom">
+          <div class="r-hint" id="rHint">拖动旋转 · 双指缩放</div>
+          <div class="r-controls glass">
+            <div class="swatches" id="dColors" role="radiogroup" aria-label="配色"></div>
+            <span class="r-colorname" id="dColorName"></span>
+            <span class="divider" id="poseDiv"></span>
+            <button class="chip-btn" id="poseBtn" hidden></button>
+            <button class="chip-btn" id="spinBtn" aria-pressed="false">自动旋转</button>
+          </div>
+        </div>
       </div>
       <aside class="info" id="info">
         <p class="info-cat" id="dCat"></p>
         <h2 id="dName"></h2>
-        <p class="info-tag" id="dTag"></p>
-        <div class="info-price">
-          <span class="price-big" id="dPrice"></span>
-          <span class="muted small" id="dRelease"></span>
+        <p class="r-verdict" id="dVerdict"></p>
+        <div class="info-price"><span class="price-big" id="dPrice"></span><span class="muted small" id="dRelease"></span></div>
+        <div class="facts big" id="dFacts"></div>
+        <h3 class="i-h">六维评分 <small>本站在同品类内的相对评价</small></h3>
+        <div class="scores" id="dScores"></div>
+        <div class="pc two" id="dPC"></div>
+        <div class="persuade" id="dPersuade"></div>
+        <div class="fitbox">
+          <div class="fit good"><h4>买它，如果</h4><p id="dFor"></p></div>
+          <div class="fit bad"><h4>先别买，如果</h4><p id="dNot"></p></div>
         </div>
-        <div class="swatch-block">
-          <p class="label">外观 · <span id="dColorName"></span></p>
-          <div class="swatches" id="dColors" role="radiogroup" aria-label="配色"></div>
-        </div>
-        <ul class="highlights" id="dHighlights"></ul>
-        <div class="tabs" role="tablist">
-          <button role="tab" class="on" data-tab="specs">规格</button>
-          <button role="tab" data-tab="fit">适合谁</button>
-        </div>
-        <div class="tab-body" id="tabSpecs"><dl class="spec-list" id="dSpecs"></dl></div>
-        <div class="tab-body" id="tabFit" hidden>
-          <div class="fit good"><h4>适合</h4><p id="dFor"></p></div>
-          <div class="fit bad"><h4>再想想</h4><p id="dNot"></p></div>
-        </div>
+        <h3 class="i-h">还可以看看</h3>
+        <div class="alts" id="dAlts"></div>
+        <h3 class="i-h">关键规格</h3>
+        <dl class="spec-list" id="dSpecs"></dl>
         <div class="info-actions">
-          <button class="btn btn-plain" id="dCompare">加入对比</button>
-          <a class="btn btn-dark" id="dLink" target="_blank" rel="noopener">去官网购买</a>
+          <button class="btn btn-ghost" id="dCompare">加入对比</button>
+          <a class="btn btn-light" id="dLink" target="_blank" rel="noopener">去官网购买</a>
         </div>
-        <div class="siblings">
-          <p class="label">同系列其他型号</p>
-          <div class="sib-list" id="dSiblings"></div>
-        </div>
+        <p class="muted small" id="dNote"></p>
       </aside>
     </div>
   </div>
@@ -202,13 +223,10 @@
     <div class="modal-panel small">
       <div class="ar-info">
         <div class="ar-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 2 3 7v10l9 5 9-5V7z"/><path d="M3 7l9 5 9-5M12 12v10"/></svg></div>
-        <h3 id="arTitle">在 iPhone 或 iPad 上查看 3D 模型</h3>
-        <p>这款产品有 Apple 官方的 3D / AR 模型。用 iPhone 或 iPad 的 Safari 打开本页，点按“AR 查看”，就能 360° 旋转模型，或把它摆到你的桌面上看实际大小。</p>
-        <p class="muted small">电脑和安卓设备的浏览器不支持 AR Quick Look。Mac 用户可以下载模型文件，用“预览”打开。</p>
-        <div class="ar-actions">
-          <a class="btn btn-plain btn-small" id="arDownload" download>下载模型（USDZ）</a>
-          <button class="btn btn-dark btn-small" data-close>知道了</button>
-        </div>
+        <h3 id="arTitle">在 iPhone 或 iPad 上用 AR 查看</h3>
+        <p>用 iPhone 或 iPad 的 Safari 打开本页，点按“AR”，就能把这台设备按真实大小摆在你的桌上。</p>
+        <p class="muted small">网页里的 3D 模型可以在任何设备上直接拖动旋转；AR 摆放功能需要 iPhone / iPad。</p>
+        <div class="ar-actions"><button class="btn btn-light btn-small" data-close>知道了</button></div>
       </div>
     </div>
   </div>
@@ -240,8 +258,7 @@
   </div>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-
-  <noscript><p class="noscript">本页面需要启用 JavaScript 才能显示产品。</p></noscript>
+  <noscript><p class="noscript">本页面需要启用 JavaScript。</p></noscript>
   <script type="module" src="js/app.js"></script>
 </body>
 </html>
