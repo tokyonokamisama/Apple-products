@@ -233,13 +233,12 @@ export class Stage {
     gltf.__inUse = true;
     const prev = this.current;
     this.current = next;
-    // 只保留上一台（用于淡出）和新的一台，其余一律移除，避免快速滚动时模型叠在一起
-    if (this.anim && this.anim.prev) this.anim.prev = null;
-    this.holder.children.slice().forEach((c) => { if (!prev || c !== prev.wrap) this.holder.remove(c); });
+    // 新模型就绪后立即移走所有旧模型，画面里任何时候只有一台
+    this.holder.children.slice().forEach((c) => this.holder.remove(c));
     this.holder.add(wrap);
-    // 入场：轻微放大 + 旋转；旧模型淡出
+    // 入场：轻微放大 + 旋转
     const fromYaw = opts.swap ? 0 : -0.5;
-    this.anim = { t: 0, wrap, prev: prev && prev.wrap, fromYaw, fast: !!opts.swap };
+    this.anim = { t: 0, wrap, prev: null, fromYaw, fast: !!opts.swap };
     if (prev) prev.gltf.__inUse = false;
     if (opts.view !== false && !opts.keepAngle) {
       const [yaw, pitch] = m.view;

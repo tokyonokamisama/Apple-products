@@ -71,12 +71,14 @@ function factHTML(f) {
 function countUp(root) {
   if (REDUCED) return;
   $$('[data-n]', root).forEach((el) => {
+    if (el.dataset.done) return; // 每个数字只滚动一次，来回滑动时不再重播
+    el.dataset.done = '1';
     const target = parseFloat(el.dataset.n);
     const dec = (el.dataset.n.split('.')[1] || '').length;
     const unit = el.querySelector('small');
     const t0 = performance.now();
     const tick = (t) => {
-      const k = Math.min(1, (t - t0) / 900);
+      const k = Math.min(1, (t - t0) / 650);
       const v = target * (1 - Math.pow(1 - k, 3));
       el.firstChild.nodeValue = v.toFixed(dec);
       if (k < 1) requestAnimationFrame(tick);
@@ -220,15 +222,25 @@ function activateSlide(ch, id) {
   ch.badge.textContent = has3D(id) ? '3D' : '实拍';
   ch.stageEl.style.setProperty('--glow', glowOf(p, modelColor(id)));
   if (has3D(id) && stage && owner && owner.ch === ch) {
+    // 先把 3D 画面淡出，旧模型不会和新产品的占位图叠在一起；新模型就绪后再淡入
+    const cached = stage.current && stage.current.id === id;
+    if (!cached) ch.host.classList.add('fading');
     ch.photo.src = thumb(id);
     ch.photo.classList.add('on');
     ch.loading.classList.remove('done');
+    const t0 = performance.now();
     stage.show(id, { ci: modelColor(id) }).then((ok) => {
       if (ch.active !== id) return;
-      ch.loading.classList.add('done');
-      if (ok) ch.photo.classList.remove('on');
+      const wait = Math.max(0, 220 - (performance.now() - t0)); // 等淡出完成再切换
+      setTimeout(() => {
+        if (ch.active !== id) return;
+        ch.loading.classList.add('done');
+        ch.host.classList.remove('fading');
+        if (ok) ch.photo.classList.remove('on');
+      }, wait);
     });
   } else {
+    ch.host.classList.add('fading');
     if (stage && owner && owner.ch === ch) stage.clear();
     ch.photo.src = thumb(id);
     ch.photo.classList.add('on');
