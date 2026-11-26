@@ -228,11 +228,14 @@ export class Stage {
     const wrap = new THREE.Group();
     wrap.add(pivot, sh);
     const next = { id, pose, ci: -1, obj, wrap, gltf, model: m };
+    if (m.variants) await this.setVariant(ci, next);
+    if (my !== this.token) return false;
     gltf.__inUse = true;
     const prev = this.current;
     this.current = next;
-    if (m.variants) await this.setVariant(ci, next);
-    if (my !== this.token) return false;
+    // 只保留上一台（用于淡出）和新的一台，其余一律移除，避免快速滚动时模型叠在一起
+    if (this.anim && this.anim.prev) this.anim.prev = null;
+    this.holder.children.slice().forEach((c) => { if (!prev || c !== prev.wrap) this.holder.remove(c); });
     this.holder.add(wrap);
     // 入场：轻微放大 + 旋转；旧模型淡出
     const fromYaw = opts.swap ? 0 : -0.5;
@@ -273,10 +276,11 @@ export class Stage {
   clear() {
     this.token++;
     if (this.current) {
-      this.holder.remove(this.current.wrap);
       this.current.gltf.__inUse = false;
       this.current = null;
     }
+    this.anim = null;
+    this.holder.children.slice().forEach((c) => this.holder.remove(c));
     this.wake();
   }
 
@@ -296,7 +300,12 @@ export class Stage {
         a.prev.scale.setScalar(lerp(1, 0.9, Math.min(1, a.t * 3)));
         if (a.t > 0.3 || a.fast) { this.holder.remove(a.prev); a.prev = null; }
       }
-      if (a.t >= 1) this.anim = null;
+      if (a.t >= 1) {
+        this.anim = null;
+        // 动画结束时确保舞台上只有当前这一台
+        const keep = this.current && this.current.wrap;
+        this.holder.children.slice().forEach((c) => { if (c !== keep) this.holder.remove(c); });
+      }
       this.wake(300);
     }
     if (this.mode === 'scroll') {
