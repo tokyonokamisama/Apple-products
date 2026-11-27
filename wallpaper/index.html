@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#000000">
+<title>苹果格子壁纸</title>
+<meta name="description" content="黑白苹果 logo 格子动态壁纸：鼠标经过翻转，点击扩散波纹，静止时自动流动。">
+<style>
+/* Layout: one full-screen canvas; a small settings panel that hides itself when the pointer is still. Deliberately single-theme (black/white). */
+:root{--ink:#000;--paper:#fff;--glass:rgba(22,22,24,.72);--line:rgba(255,255,255,.16);--text:#f5f5f7;--muted:#a1a1a6;--accent:#0a84ff;color-scheme:dark;
+  --f:-apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang SC","Noto Sans SC","Microsoft YaHei",sans-serif}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;background:#000;overflow:hidden}
+body{font-family:var(--f);color:var(--text);-webkit-font-smoothing:antialiased;cursor:default}
+body.hide-cursor{cursor:none}
+canvas{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none}
+.gear{position:fixed;right:calc(env(safe-area-inset-right,0px) + 16px);bottom:calc(env(safe-area-inset-bottom,0px) + 16px);width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);color:var(--text);display:grid;place-items:center;cursor:pointer;transition:opacity .4s}
+.gear svg{width:20px;height:20px}
+body.idle .gear{opacity:0;pointer-events:none}
+.panel{position:fixed;right:calc(env(safe-area-inset-right,0px) + 16px);bottom:calc(env(safe-area-inset-bottom,0px) + 66px);width:min(300px,calc(100vw - 32px));padding:16px;border-radius:18px;background:var(--glass);border:1px solid var(--line);backdrop-filter:blur(20px) saturate(1.5);-webkit-backdrop-filter:blur(20px) saturate(1.5);display:grid;gap:14px;font-size:13px;box-shadow:0 20px 60px rgba(0,0,0,.45)}
+.panel[hidden]{display:none}
+.panel h1{font-size:15px;margin:0;font-weight:700}
+.row{display:grid;gap:6px}
+.row label{color:var(--muted);font-size:12px}
+.seg{display:flex;background:rgba(255,255,255,.08);border-radius:9px;padding:2px;gap:2px}
+.seg button{flex:1;border:0;background:transparent;color:var(--text);font:inherit;font-size:12.5px;padding:6px 4px;border-radius:7px;cursor:pointer;opacity:.75}
+.seg button[aria-pressed="true"]{background:#f5f5f7;color:#1d1d1f;opacity:1;font-weight:600}
+input[type=range]{width:100%;accent-color:var(--accent)}
+.sw{display:flex;justify-content:space-between;align-items:center}
+.sw input{width:38px;height:22px;accent-color:var(--accent)}
+.btns{display:flex;gap:8px}
+.btns button{flex:1;border:0;border-radius:10px;padding:8px;font:inherit;font-size:12.5px;cursor:pointer;background:rgba(255,255,255,.12);color:var(--text)}
+.btns button.primary{background:#f5f5f7;color:#1d1d1f;font-weight:600}
+.keys{color:var(--muted);font-size:11.5px;line-height:1.6}
+kbd{font-family:inherit;background:rgba(255,255,255,.12);border-radius:4px;padding:0 5px}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+</style>
+
+</head>
+<body>
+<canvas id="cv" aria-label="黑白苹果格子动态背景"></canvas>
+
+<button class="gear" id="gear" type="button" aria-label="打开设置" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Zm9 4.6-.1-2.2-2.2-.5a7 7 0 0 0-.7-1.6l1.2-1.9-1.6-1.6-1.9 1.2a7 7 0 0 0-1.6-.7L13.6 3h-2.2l-.5 2.2a7 7 0 0 0-1.6.7L7.4 4.7 5.8 6.3l1.2 1.9a7 7 0 0 0-.7 1.6L4 10.3v2.2l2.2.5c.2.6.4 1.1.7 1.6l-1.2 1.9 1.6 1.6 1.9-1.2c.5.3 1 .5 1.6.7l.5 2.2h2.2l.5-2.2c.6-.2 1.1-.4 1.6-.7l1.9 1.2 1.6-1.6-1.2-1.9c.3-.5.5-1 .7-1.6l2.3-.5Z"/></svg></button>
+
+<div class="panel" id="panel" hidden role="dialog" aria-label="壁纸设置">
+  <h1>壁纸设置</h1>
+  <div class="row"><label>格子大小</label><div class="seg" data-key="size"><button type="button" data-v="56">小</button><button type="button" data-v="80">中</button><button type="button" data-v="112">大</button><button type="button" data-v="160">特大</button></div></div>
+  <div class="row"><label>配色</label><div class="seg" data-key="theme"><button type="button" data-v="classic">黑白</button><button type="button" data-v="soft">柔和灰</button><button type="button" data-v="night">夜间</button></div></div>
+  <div class="row"><label for="speed">自动流动速度</label><input id="speed" type="range" min="0" max="2" step="0.1"></div>
+  <div class="row"><label for="radius">鼠标影响范围</label><input id="radius" type="range" min="1" max="4" step="0.1"></div>
+  <div class="sw"><label for="auto">鼠标不动时自动流动</label><input id="auto" type="checkbox"></div>
+  <div class="sw"><label for="spin">翻转时转动 logo</label><input id="spin" type="checkbox"></div>
+  <div class="sw"><label for="eco">省电模式（30 帧）</label><input id="eco" type="checkbox"></div>
+  <div class="btns"><button type="button" class="primary" id="fs">全屏</button><button type="button" id="reset">恢复默认</button></div>
+  <p class="keys"><kbd>F</kbd> 全屏 · <kbd>S</kbd> 设置 · 点击屏幕放出波纹。鼠标静止 3 秒后，按钮和指针会自动隐藏。</p>
+</div>
+
+<script>
+(() => {
+/* Apple logo path from the apple.com.cn global nav; bbox centre (7, 20.22), height 15.94 */
+const LOGO = new Path2D('m13.0729 17.6825a3.61 3.61 0 0 0 -1.7248 3.0365 3.5132 3.5132 0 0 0 2.1379 3.2223 8.394 8.394 0 0 1 -1.0948 2.2618c-.6816.9812-1.3943 1.9623-2.4787 1.9623s-1.3633-.63-2.613-.63c-1.2187 0-1.6525.6507-2.644.6507s-1.6834-.9089-2.4787-2.0243a9.7842 9.7842 0 0 1 -1.6628-5.2776c0-3.0984 2.014-4.7405 3.9969-4.7405 1.0535 0 1.9314.6919 2.5924.6919.63 0 1.6112-.7333 2.8092-.7333a3.7579 3.7579 0 0 1 3.1604 1.5802zm-3.7284-2.8918a3.5615 3.5615 0 0 0 .8469-2.22 1.5353 1.5353 0 0 0 -.031-.32 3.5686 3.5686 0 0 0 -2.3445 1.2084 3.4629 3.4629 0 0 0 -.8779 2.1585 1.419 1.419 0 0 0 .031.2892 1.19 1.19 0 0 0 .2169.0207 3.0935 3.0935 0 0 0 2.1586-1.1368z');
+const THEMES = { classic:[[0,0,0],[255,255,255]], soft:[[28,28,30],[229,229,234]], night:[[0,0,0],[58,58,62]] };
+const DEF = { size:80, theme:'classic', speed:1, radius:2.2, auto:true, spin:true, eco:false };
+let cfg = {...DEF};
+try { cfg = {...DEF, ...JSON.parse(localStorage.getItem('apple-wall') || '{}')}; } catch(e) {}
+const save = () => { try { localStorage.setItem('apple-wall', JSON.stringify(cfg)); } catch(e) {} };
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+const cv = document.getElementById('cv'), ctx = cv.getContext('2d', {alpha:false});
+let W=0,H=0,S=80,cols=0,rows=0,dpr=1, flip, drawn, waves=[];
+let px=-1e4, py=-1e4, lastMove=0, pointerIn=false;
+
+function size(){
+  dpr = Math.min(window.devicePixelRatio||1, 2);
+  W = innerWidth; H = innerHeight;
+  S = cfg.size * (W < 600 ? 0.75 : 1);
+  cols = Math.ceil(W/S)+1; rows = Math.ceil(H/S)+1;
+  cv.width = Math.round(W*dpr); cv.height = Math.round(H*dpr);
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  flip = new Float32Array(cols*rows); drawn = new Float32Array(cols*rows).fill(-1);
+}
+function mix(a,b,t){ return Math.round(a+(b-a)*t); }
+function tile(c,r,f){
+  const [A,B] = THEMES[cfg.theme] || THEMES.classic;
+  const base = (r+c)%2, v = base ? 1-f : f;           // 0 → colour A tile, 1 → colour B tile
+  const x=c*S, y=r*S;
+  ctx.fillStyle = `rgb(${mix(A[0],B[0],v)},${mix(A[1],B[1],v)},${mix(A[2],B[2],v)})`;
+  ctx.fillRect(x,y,S+0.5,S+0.5);
+  const sc = (S*0.56/100)*(1+0.12*f)*5.9;
+  ctx.save(); ctx.translate(x+S/2,y+S/2); if (cfg.spin) ctx.rotate(f*0.35); ctx.scale(sc,sc); ctx.translate(-7,-20.22);
+  ctx.fillStyle = `rgb(${mix(B[0],A[0],v)},${mix(B[1],A[1],v)},${mix(B[2],A[2],v)})`;
+  ctx.fill(LOGO); ctx.restore();
+}
+
+/* idle wanderer: a slow Lissajous path, plus an occasional ripple */
+let t0 = performance.now(), nextWave = 0;
+function wanderer(now){
+  const t = (now - t0)/1000 * cfg.speed;
+  return [ (Math.sin(t*0.37)*0.42 + Math.sin(t*0.13+1.7)*0.06 + 0.5)*W, (Math.cos(t*0.29)*0.38 + Math.sin(t*0.17)*0.06 + 0.5)*H ];
+}
+
+let last = 0, full = true;
+function frame(now){
+  requestAnimationFrame(frame);
+  if (cfg.eco && now-last < 32) return;
+  last = now;
+  const idle = now - lastMove > 3000;
+  document.body.classList.toggle('idle', idle && document.getElementById('panel').hidden);
+  document.body.classList.toggle('hide-cursor', idle);
+  let mx=px, my=py;
+  const autoOn = cfg.auto && cfg.speed>0 && !reduce;
+  if ((!pointerIn || idle) && autoOn){ [mx,my] = wanderer(now); }
+  else if (!pointerIn) { mx=my=-1e4; }
+  if (autoOn && idle && now > nextWave){ waves.push({x:Math.random()*W, y:Math.random()*H, t:now}); nextWave = now + (9000 + Math.random()*8000)/Math.max(cfg.speed,0.2); }
+  const R = S*cfg.radius, maxD = Math.hypot(W,H);
+  waves = waves.filter(w => (now-w.t)/1000*700 < maxD + S*2);
+  const k = cfg.eco ? 0.26 : 0.16;
+  for (let r=0;r<rows;r++) for (let c=0;c<cols;c++){
+    const i=r*cols+c, cx=c*S+S/2, cy=r*S+S/2;
+    let target = Math.hypot(cx-mx,cy-my) < R ? 1 : 0;
+    for (const w of waves){ const rad=(now-w.t)/1000*700, d=Math.hypot(cx-w.x,cy-w.y); if (Math.abs(d-rad) < S*0.9) { target = 1-target; break; } }
+    flip[i] += (target-flip[i])*k;
+    if (Math.abs(flip[i]-target) < 0.002) flip[i]=target;
+    if (full || Math.abs(flip[i]-drawn[i]) > 0.004){ tile(c,r,flip[i]); drawn[i]=flip[i]; }
+  }
+  full = false;
+}
+
+addEventListener('resize', ()=>{ size(); full=true; });
+addEventListener('pointermove', e=>{ px=e.clientX; py=e.clientY; lastMove=performance.now(); pointerIn=true; });
+addEventListener('mouseout', e=>{ if(!e.relatedTarget) pointerIn=false; });
+addEventListener('blur', ()=>{ pointerIn=false; });
+cv.addEventListener('pointerdown', e=>{ waves.push({x:e.clientX,y:e.clientY,t:performance.now()}); lastMove=performance.now(); pointerIn = e.pointerType==='mouse'; });
+cv.addEventListener('pointerup', e=>{ if (e.pointerType!=='mouse') pointerIn=false; });
+
+/* settings panel */
+const panel=document.getElementById('panel'), gear=document.getElementById('gear');
+function syncUI(){
+  panel.querySelectorAll('.seg').forEach(s=>s.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed', String(String(cfg[s.dataset.key])===b.dataset.v))));
+  document.getElementById('speed').value=cfg.speed; document.getElementById('radius').value=cfg.radius;
+  document.getElementById('auto').checked=cfg.auto; document.getElementById('spin').checked=cfg.spin; document.getElementById('eco').checked=cfg.eco;
+}
+function togglePanel(open){ panel.hidden = !(open ?? panel.hidden); gear.setAttribute('aria-expanded', String(!panel.hidden)); lastMove=performance.now(); }
+gear.onclick=()=>togglePanel();
+panel.querySelectorAll('.seg').forEach(s=>s.addEventListener('click',e=>{ const b=e.target.closest('button'); if(!b) return;
+  const key=s.dataset.key; cfg[key] = key==='size' ? +b.dataset.v : b.dataset.v; save(); syncUI(); if(key==='size') size(); full=true; }));
+['speed','radius'].forEach(id=>document.getElementById(id).addEventListener('input',e=>{ cfg[id]=+e.target.value; save(); }));
+['auto','spin','eco'].forEach(id=>document.getElementById(id).addEventListener('change',e=>{ cfg[id]=e.target.checked; save(); full=true; }));
+function fullscreen(){ const d=document; if(!d.fullscreenElement){ d.documentElement.requestFullscreen?.().catch(()=>{}); } else d.exitFullscreen?.(); }
+document.getElementById('fs').onclick=fullscreen;
+document.getElementById('reset').onclick=()=>{ cfg={...DEF}; save(); syncUI(); size(); full=true; };
+addEventListener('keydown',e=>{ const k=e.key.toLowerCase(); if(k==='f') fullscreen(); if(k==='s') togglePanel(); if(k==='escape') togglePanel(false); lastMove=performance.now(); });
+
+size(); syncUI(); lastMove = performance.now() - 4000;
+requestAnimationFrame(frame);
+})();
+</script>
+
+</body>
+</html>
