@@ -195,6 +195,30 @@ td .note{color:var(--muted);font-size:13px}
 .dell-tips div{border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:13.5px;display:grid;gap:4px}
 .dell-tips span{color:var(--muted)}
 @media (max-width:560px){.spec,.dell-cols,.dell-tips{grid-template-columns:1fr}}
+/* personal pick */
+.pick{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);background:var(--surface);border:1px solid color-mix(in srgb,var(--ok) 45%,var(--line));border-radius:18px;overflow:hidden}
+@media (max-width:860px){.pick{grid-template-columns:1fr}}
+.pick-photo{margin:0;background:var(--plate);display:flex;flex-direction:column;justify-content:center}
+.pick-photo img{width:100%;aspect-ratio:960/615;object-fit:cover;display:block}
+.pick-photo figcaption{font-size:11.5px;color:#6b7280;padding:8px 14px}
+.pick-body{padding:22px 24px;display:grid;gap:12px;align-content:start;min-width:0}
+.pick-body h3{font-size:21px}
+.pick-price{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px}
+.pick-price .big{font-size:30px;font-weight:800}
+.pick-price .sub{font-size:13px;color:var(--muted)}
+.why{margin:0;padding-left:1.1em;font-size:14.5px;display:grid;gap:8px}
+.tiers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:16px}
+@media (max-width:860px){.tiers{grid-template-columns:1fr}}
+.tier{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:8px;align-content:start}
+.pick-body .pill,.tier .pill{justify-self:start}
+.tier h4{margin:0;font-size:15.5px}
+.tier .tp{font-size:20px;font-weight:800}
+.tier .tp small{font-size:12px;font-weight:400;color:var(--muted)}
+.tier p:last-child{font-size:14px;color:var(--muted)}
+.verdict-notes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:16px}
+@media (max-width:760px){.verdict-notes{grid-template-columns:1fr}}
+.verdict-notes div{background:var(--sunk);border-radius:12px;padding:12px 14px;display:grid;gap:4px;font-size:14px}
+.verdict-notes span{color:var(--muted)}
 .mx td,.mx th{text-align:center;padding:9px 8px}
 .mx td:first-child,.mx th:first-child{text-align:left}
 .dots{display:inline-flex;gap:3px}
@@ -231,7 +255,7 @@ footer{padding-block:28px 48px;font-size:12.5px;color:var(--faint);border-top:1p
   <div class="wrap">
     <div class="brand">十一套<b>方案</b></div>
     <nav class="toplinks" aria-label="页面目录">
-      <a href="#mydell">你的戴尔</a><a href="#verdict">结论</a><a href="#check">价格核对</a><a href="#chart">价格图</a><a href="#plans">方案详情</a><a href="#matrix">评分</a><a href="#roadmap">长期路线</a><a href="#pitfalls">注意事项</a><a href="#sources">来源</a>
+      <a href="#verdict">给你的结论</a><a href="#mydell">你的戴尔</a><a href="#check">价格核对</a><a href="#chart">价格图</a><a href="#plans">方案详情</a><a href="#matrix">评分</a><a href="#roadmap">长期路线</a><a href="#pitfalls">注意事项</a><a href="#sources">来源</a>
     </nav>
   </div>
 </header>
@@ -245,37 +269,42 @@ footer{padding-block:28px 48px;font-size:12.5px;color:var(--faint);border-top:1p
     <div class="fact"><span class="dot d-ok">8</span>价格准确：A B C D E F G H</div>
     <div class="fact"><span class="dot d-warn">1</span>价格可用但要留意：J（上一代、看库存）</div>
     <div class="fact"><span class="dot d-up">2</span>预算需上调：I、K</div>
+    <a class="fact" href="#verdict" style="text-decoration:none;color:inherit;border-color:color-mix(in srgb,var(--ok) 50%,var(--line))"><span class="dot d-ok">★</span>给你的推荐：MacBook Pro 14（M5 Pro）¥18,799</a>
   </div>
   <p class="basis">价格口径：Apple 产品用<strong>官网教育商店价</strong>（你表里的数字就是这个口径，零售价也一并标出）；显示器和 Windows 设备是电商/渠道参考价。不含国补、以旧换新和临时券。苹果的数字是我直接从 apple.com.cn 购买页读出来的；ROG 官网产品页不标价格，所以 Windows 价格来自媒体报道和电商报价汇总。</p>
 </div>
 
-<div id="dellMount"></div>
 <section id="verdict"><div class="wrap">
-  <div class="sec-head"><p class="eyebrow">先说结论</p><h2>不知道选哪个？先看你主要拿电脑做什么</h2></div>
-  <div class="verdict">
-    <div class="vbox main">
-      <h3>我的默认推荐：E（MacBook Air 15）或「B 先行、明年再定」</h3>
-      <p>你的两个地点（家、宿舍）决定了一件事：<strong>固定在一个地方的设备，另一个地方只能靠戴尔</strong>。C、F、I、K 都是「家里很强、宿舍不变」，而你一年大部分时间在宿舍。D 反过来，回家就只剩戴尔。</p>
-      <p>好消息是你的戴尔（Vostro 15 5510）并不弱：i7 加 32GB 内存，写代码和日常学习都够。它真正拖后腿的是 <strong>1080p 60Hz 小屏、2GB 显存和老化的电池</strong>。所以先补屏幕（B）的性价比特别高。</p>
-      <p>所以如果你不需要 CUDA、也不靠电脑打大型游戏，<strong>E 是覆盖面最大的一台</strong>：¥11,249，家和宿舍都能用，无风扇不吵室友，续航一整天，戴尔留着跑 Windows 专用软件。</p>
-      <p>如果你确实要跑 CUDA 或打游戏，<strong>现在是一年里显卡最贵的时候</strong>（RTX 5080 渠道价约 ¥1.4 万，官方指导价 ¥8,299；DDR5 32G 套条约 ¥3,800）。这时先花 ¥2,000 多买 B 的显示器，戴尔立刻好用很多；训练任务先租云 GPU，等显卡和内存回落再装 I。显示器以后接 Mac 或新主机都能继续用。</p>
-      <ul>
-        <li>不推荐 G：两台显示器 + Studio，¥2.2 万以上，但宿舍那边仍是戴尔，钱花在了一个人用不满的性能上。</li>
-        <li>K 只适合「游戏/训练是主业、预算 3 万以上、主要在家」的人。</li>
+  <div class="sec-head"><p class="eyebrow">给你的结论</p><h2>不玩游戏、电脑老了、想一次换好：买 MacBook Pro 14 英寸</h2><p>你要换的是一台天天带着走的笔记本，所以答案应该是一台更好的笔记本，而不是桌面机。不玩游戏的话，ROG 那几套的显卡你用不上；桌面机（C、D、F、G、I、K）也替代不了戴尔，宿舍和教室里你手上还是那台老电脑。</p></div>
+  <div class="pick">
+    <figure class="pick-photo"><img data-img="proLife" alt="MacBook Pro 官方图"><figcaption>MacBook Pro 14 / 16 英寸 · 图片来自 apple.com.cn</figcaption></figure>
+    <div class="pick-body">
+      <span class="pill st-ok">首选</span>
+      <h3>MacBook Pro 14 英寸 · M5 Pro · 24GB 内存 · 1TB</h3>
+      <div class="pick-price"><span class="big num">¥18,799</span><span class="sub">教育价（零售 ¥19,999）· 15 核 CPU / 16 核 GPU</span></div>
+      <ul class="why">
+        <li><b>比戴尔好在每一个短板上。</b>1080p 60Hz 屏换成 Liquid 视网膜 XDR 屏（120Hz、亮度高得多）；电池从“衰减的五年老电池”换成一整天续航；风扇散热，长时间编译、导出也不降频。</li>
+        <li><b>内存不倒退。</b>你现在用惯了 32GB，Air 和 M6 版起步只有 16GB，这台起步就是 24GB，用五六年也不憋屈。Mac 的内存和硬盘买完都不能加，这一点比价格更重要。</li>
+        <li><b>重量和戴尔差不多。</b>14 英寸约 1.6 千克，你的戴尔是 1.64–1.75 千克，背着上课没有额外负担。</li>
+        <li><b>接口齐全</b>：HDMI、SD 卡槽、MagSafe 磁吸充电和雷雳口，不用天天带转接头。</li>
+        <li><b>用得久、保值。</b>Pro 机型系统更新支持通常 6–7 年以上，几年后转手价也高。</li>
       </ul>
     </div>
-    <div class="vbox">
-      <h3>按用途快速分流</h3>
-      <div class="tree">
-        <div class="branch"><span class="letter fam-port">E</span><div><div class="q">写代码、论文、网课、轻剪辑</div><div class="a">E 最均衡。在家想要大屏就再加一台 4K 显示器（B 的那台可直接接 Mac）。</div></div></div>
-        <div class="branch"><span class="letter fam-win">I</span><div><div class="q">要跑 CUDA、训练模型</div><div class="a">只有 I、J、K 能跑 CUDA。现阶段建议：B + 云 GPU 过渡，显卡回落后装 I。</div></div></div>
-        <div class="branch"><span class="letter fam-win">J</span><div><div class="q">宿舍里也要打 3A 游戏</div><div class="a">J 是唯一能把高性能带进宿舍的方案，代价是重、吵、费电、续航短。</div></div></div>
-        <div class="branch"><span class="letter fam-desk">C</span><div><div class="q">回家后才是主要工作时间</div><div class="a">C 用 ¥8,000 多把家里变成安静的 Mac 工作站，宿舍继续用戴尔。</div></div></div>
-        <div class="branch"><span class="letter fam-none">A</span><div><div class="q">戴尔还够用、预算紧</div><div class="a">A 或 B。显卡价格这个月一度一天跌了四千，波动很大，等一等不吃亏。</div></div></div>
-      </div>
-    </div>
+  </div>
+  <div class="tiers">
+    <div class="tier"><span class="pill st-warn">想省 ¥3,600</span><h4>MacBook Pro 14 · M6 · 16GB · 1TB</h4><p class="num tp">¥15,199 <small>教育价（零售 ¥15,999）</small></p><p>同样的 XDR 屏、风扇和接口，芯片低一档。代价是内存只有 16GB，比你现在的戴尔还少一半。选这台的话，建议在配置页把内存加到 24GB。</p></div>
+    <div class="tier"><span class="pill st-warn">预算有限</span><h4>E · MacBook Air 15 · 16GB · 512GB</h4><p class="num tp">¥11,249 <small>教育价（零售 ¥11,999）</small></p><p>又轻又安静，写作和编程完全够用。但没有风扇、内存只有 16GB、屏幕也不是 XDR，“换就换好一点”的话，它是够用而不是好用。</p></div>
+    <div class="tier"><span class="pill st-up">不建议</span><h4>H · MacBook Pro 16 · M5 Pro</h4><p class="num tp">¥23,399 <small>教育价</small></p><p>比首选贵 ¥4,600，主要多的是屏幕尺寸，约 2.1 千克，比戴尔还重。想要大屏不如买首选，再花 ¥2,000 多配一台 4K 显示器（B），在宿舍或家里接上就是 27 英寸。</p></div>
+  </div>
+  <div class="verdict-notes">
+    <div><b>戴尔怎么办</b><span>留着当 Windows 备用机（偶尔要用只有 Windows 版的软件时用），或者二手卖掉补贴一部分。</span></div>
+    <div><b>要不要配显示器</b><span>不急。先用 MacBook Pro 自己的屏，觉得在宿舍需要大屏再买 27 英寸 4K（Mac 接 2K 屏文字会发虚）。Mac 接显示器用 USB-C/雷雳线就行，没有戴尔那个 HDMI 1.4 的问题。</span></div>
+    <div><b>唯一要先确认的事</b><span>你的专业课会不会要求用 NVIDIA 显卡跑 CUDA？Mac 跑不了 CUDA。会的话也不用改买 Windows，训练任务交给学校服务器或按小时租的云 GPU，日常仍然用 Mac。</span></div>
+    <div><b>什么时候买</b><span>Apple 的教育价全年都有，现在买和以后买价格一样。明年 6–9 月的返校季通常还会送赠品，不急的话可以等；电脑已经影响学习了就现在买。</span></div>
   </div>
 </div></section>
+<div id="dellMount"></div>
+
 
 <section id="check"><div class="wrap">
   <div class="sec-head"><p class="eyebrow">价格核对</p><h2>逐项核对结果</h2><p>标记说明：「准确」表示与官网或主流报价一致；「留意」表示数字能用但有前提；「上调」表示按 11 月行情，原预算买不到对应配置，已改成新区间。</p></div>
@@ -347,16 +376,16 @@ footer{padding-block:28px 48px;font-size:12.5px;color:var(--faint);border-top:1p
       <p class="cost">现在先花 <strong class="num">¥2,000–2,700</strong>；主机等价格回落再买。按 11 月行情装 I 需要约 <strong class="num">¥23,000–28,000</strong>，行情回落后可能回到你原来的 ¥16,000–24,000。</p>
     </div>
     <div class="route">
-      <span class="pill st-up">路线三 · 一台走天下</span>
-      <h3>直接买 E（或 H）</h3>
-      <p class="who">适合：家和宿舍来回跑、不玩大型游戏、不需要 CUDA 的人。</p>
+      <span class="pill st-up">路线三 · 一台走天下（推荐给你）</span>
+      <h3>直接买 MacBook Pro 14</h3>
+      <p class="who">适合：电脑老了要换、不玩游戏、家和宿舍来回跑的人，也就是你。</p>
       <ol class="steps">
-        <li><span class="when">现在</span><span>买 E（¥11,249 教育价，16GB + 512GB）。家和宿舍用同一台，文件和环境不用来回同步。</span></li>
-        <li><span class="when">第一年</span><span>如果发现经常长时间满载（多轨剪辑、大项目编译），说明当初该选 H；Air 转手损失不大。</span></li>
-        <li><span class="when">需要大屏时</span><span>补一台 4K 显示器放在常待的那一边。</span></li>
-        <li><span class="when">长期</span><span>MacBook 系统更新支持一般 6–7 年以上，二手价格也稳。</span></li>
+        <li><span class="when">现在</span><span>买 MacBook Pro 14（M5 Pro，24GB + 1TB，教育价 ¥18,799）。家、宿舍、教室都用这一台，文件和环境不用同步。</span></li>
+        <li><span class="when">第一个月</span><span>把戴尔上的资料迁过来，戴尔留作 Windows 备用机或卖掉。</span></li>
+        <li><span class="when">需要大屏时</span><span>在常待的那一边补一台 27 英寸 4K 显示器（B），一根 USB-C/雷雳线接上。</span></li>
+        <li><span class="when">长期</span><span>24GB 内存加 Pro 芯片，用 5–7 年没有压力；要跑 CUDA 时交给学校服务器或云 GPU。</span></li>
       </ol>
-      <p class="cost">一次性 <strong class="num">¥11,249</strong>；预算宽裕、确实有持续重负载才考虑 H（<strong class="num">¥23,399</strong>），差价够买 Air + 4K 显示器 + 近一年云 GPU。</p>
+      <p class="cost">一次性 <strong class="num">¥18,799</strong>；预算紧可以选 MacBook Pro 14 M6（<strong class="num">¥15,199</strong>，建议加到 24GB 内存）或 Air 15（<strong class="num">¥11,249</strong>）。</p>
     </div>
   </div>
 </div></section>
@@ -553,6 +582,8 @@ document.getElementById('dellMount').outerHTML = `<section id="mydell"><div clas
   </div>
 </div></section>
 `;
+
+document.querySelectorAll('img[data-img]').forEach(el=>{el.src=IMG[el.dataset.img].src});
 
 /* check table */
 document.querySelector('#checkTable tbody').innerHTML = PLANS.map(p=>{
