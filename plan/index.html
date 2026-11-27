@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>我的换电脑方案</title>
+<title>换电脑参考资料</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="description" content="家里与宿舍的十一套电脑方案：价格核对、官方实拍图、优缺点、短期与长期规划。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -218,6 +218,11 @@ td .note{color:var(--muted);font-size:13px}
 @media (max-width:760px){.verdict-notes{grid-template-columns:1fr}}
 .verdict-notes div{background:var(--sunk);border-radius:12px;padding:12px 14px;display:grid;gap:4px;font-size:14px}
 .verdict-notes span{color:var(--muted)}
+.sp td,.sp th{white-space:nowrap}
+.sp td.hl{background:color-mix(in srgb,var(--accent) 13%,transparent);font-weight:700}
+.sp tr.cur td{background:var(--sunk);color:var(--muted)}
+.sp .letter{width:auto;min-width:30px;padding:0 6px;font-size:12px}
+.sp-note{font-size:13px;color:var(--muted);margin-top:10px;max-width:860px}
 .mx td,.mx th{text-align:center;padding:9px 8px}
 .mx td:first-child,.mx th:first-child{text-align:left}
 .dots{display:inline-flex;gap:3px}
@@ -226,7 +231,7 @@ td .note{color:var(--muted);font-size:13px}
 .mx .scorenum{font-size:11px;color:var(--faint);margin-left:4px}
 
 /* roadmap */
-.routes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.routes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
 @media (max-width:900px){.routes{grid-template-columns:1fr}}
 .route{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px;display:grid;gap:12px;align-content:start}
 .route .who{font-size:13px;color:var(--muted)}
@@ -252,9 +257,9 @@ footer{padding-block:28px 48px;font-size:12.5px;color:var(--faint);border-top:1p
 <body>
 <header class="top">
   <div class="wrap">
-    <div class="brand">换电脑<b>方案</b></div>
+    <div class="brand">换电脑<b>参考</b></div>
     <nav class="toplinks" aria-label="页面目录">
-      <a href="#mydell">现在的电脑</a><a href="#verdict">想换什么</a><a href="#check">价格核对</a><a href="#chart">价格图</a><a href="#plans">方案详情</a><a href="#matrix">评分</a><a href="#roadmap">长期路线</a><a href="#pitfalls">注意事项</a><a href="#sources">来源</a>
+      <a href="#mydell">现在的电脑</a><a href="#specs">规格对比</a><a href="#check">价格核对</a><a href="#chart">价格图</a><a href="#plans">方案详情</a><a href="#matrix">评分</a><a href="#roadmap">长期路线</a><a href="#pitfalls">注意事项</a><a href="#sources">来源</a>
     </nav>
   </div>
 </header>
@@ -262,46 +267,34 @@ footer{padding-block:28px 48px;font-size:12.5px;color:var(--faint);border-top:1p
 <main>
 <div class="wrap hero">
   <p class="eyebrow">写给爸妈 · 2026 年 11 月</p>
-  <h1>我的电脑用了五年，<br><span class="tick">该换了</span></h1>
-  <p class="lede">我现在用的是 2021 年买的戴尔 Vostro 15 5510。上课、写作业它还能用，但屏幕、电池和显卡都已经跟不上了，内存也加到了上限，没法再升级。下面先说它具体哪里不行，再说我想换的电脑，最后附上我比较过的 11 个方案和核对过的价格。换了以后戴尔不会闲置，我会继续用，只是用得少一点。</p>
+  <h1>我的电脑用了 4 年<br><span class="tick">换机资料都整理在这里</span></h1>
+  <p class="lede">现在用的是戴尔 Vostro 15 5510。下面先列出它的规格，再把 11 个可选方案的价格、规格、优缺点和长期使用情况放在一起。价格都对照官网核对过。不管最后选哪个，戴尔都会继续用。</p>
   <div class="facts">
-    <div class="fact"><span class="dot d-up">5</span>年：2021 年的机器，电池标称寿命约 300 次循环</div>
-    <div class="fact"><span class="dot d-up">60</span>Hz：15.6 英寸 1080p 小屏，亮度 250–300 尼特</div>
-    <div class="fact"><span class="dot d-up">2</span>GB：独显显存只有 2GB，内存已到 32GB 上限</div>
-    <a class="fact" href="#verdict" style="text-decoration:none;color:inherit;border-color:color-mix(in srgb,var(--ok) 50%,var(--line))"><span class="dot d-ok">★</span>想换：MacBook Pro 14（M5 Pro）¥18,799</a>
+    <div class="fact"><span class="dot d-warn">4</span>年：已经用了 4 年，电池标称寿命约 300 次循环</div>
+    <div class="fact"><span class="dot d-warn">60</span>Hz：15.6 英寸 1080p 屏，亮度 250–300 尼特</div>
+    <div class="fact"><span class="dot d-warn">2</span>GB：独显显存 2GB，内存已到 32GB 上限</div>
+    <div class="fact"><span class="dot d-ok">11</span>个方案：价格逐项核对，8 个准确、3 个已按最新行情修正</div>
   </div>
   <p class="basis">价格口径：Apple 产品用<strong>官网教育商店价</strong>（零售价也一并标出）；显示器和 Windows 设备是电商/渠道参考价。不含国补、以旧换新和临时券。苹果的数字是我直接从 apple.com.cn 购买页读出来的；ROG 官网产品页不标价格，所以 Windows 价格来自媒体报道和电商报价汇总。</p>
 </div>
 
 <div id="dellMount"></div>
-<section id="verdict"><div class="wrap">
-  <div class="sec-head"><p class="eyebrow">我想换什么</p><h2>MacBook Pro 14 英寸：一次换到位，用五年以上</h2><p>我要换的是一台天天带去宿舍、教室和回家的笔记本，所以选的也是笔记本，不是桌面机。桌面机只能放在一个地方，另一个地方我手上还是那台老电脑。我不怎么玩游戏，ROG 游戏本和游戏台式机的高价显卡用不上，所以也排除了。</p></div>
-  <div class="pick">
-    <figure class="pick-photo"><img data-img="proLife" alt="MacBook Pro 官方图"><figcaption>MacBook Pro 14 / 16 英寸 · 图片来自 apple.com.cn</figcaption></figure>
-    <div class="pick-body">
-      <span class="pill st-ok">首选</span>
-      <h3>MacBook Pro 14 英寸 · M5 Pro · 24GB 内存 · 1TB</h3>
-      <div class="pick-price"><span class="big num">¥18,799</span><span class="sub">教育价（零售 ¥19,999）· 15 核 CPU / 16 核 GPU</span></div>
-      <ul class="why">
-        <li><b>比戴尔好在每一个短板上。</b>1080p 60Hz 屏换成 Liquid 视网膜 XDR 屏（120Hz、亮度高得多）；电池从“衰减的五年老电池”换成一整天续航；风扇散热，长时间编译、导出也不降频。</li>
-        <li><b>内存不倒退。</b>我现在用惯了 32GB，Air 和 M6 版起步只有 16GB，这台起步就是 24GB，用五六年也不憋屈。Mac 的内存和硬盘买完都不能加，这一点比价格更重要。</li>
-        <li><b>重量和戴尔差不多。</b>14 英寸约 1.6 千克，我的戴尔是 1.64–1.75 千克，背着上课没有额外负担。</li>
-        <li><b>接口齐全</b>：HDMI、SD 卡槽、MagSafe 磁吸充电和雷雳口，不用天天带转接头。</li>
-        <li><b>用得久、保值。</b>Pro 机型系统更新支持通常 6–7 年以上，几年后转手价也高。</li>
-      </ul>
-    </div>
-  </div>
-  <div class="tiers">
-    <div class="tier"><span class="pill st-warn">想省 ¥3,600</span><h4>MacBook Pro 14 · M6 · 16GB · 1TB</h4><p class="num tp">¥15,199 <small>教育价（零售 ¥15,999）</small></p><p>同样的 XDR 屏、风扇和接口，芯片低一档。代价是内存只有 16GB，比我现在的戴尔还少一半。选这台的话，建议在配置页把内存加到 24GB。</p></div>
-    <div class="tier"><span class="pill st-warn">预算有限</span><h4>E · MacBook Air 15 · 16GB · 512GB</h4><p class="num tp">¥11,249 <small>教育价（零售 ¥11,999）</small></p><p>又轻又安静，写作和编程完全够用。但没有风扇、内存只有 16GB、屏幕也不是 XDR，“换就换好一点”的话，它是够用而不是好用。</p></div>
-    <div class="tier"><span class="pill st-up">不建议</span><h4>H · MacBook Pro 16 · M5 Pro</h4><p class="num tp">¥23,399 <small>教育价</small></p><p>比首选贵 ¥4,600，主要多的是屏幕尺寸，约 2.1 千克，比戴尔还重。想要大屏不如买首选，再花 ¥2,000 多配一台 4K 显示器（B），在宿舍或家里接上就是 27 英寸。</p></div>
-  </div>
-  <div class="verdict-notes">
-    <div><b>戴尔继续用</b><span>不会闲置。它留着跑只有 Windows 版的软件和课程作业，放在宿舍或家里当第二台电脑，只是用得少一点。新电脑负责每天带出去用。</span></div>
-    <div><b>要不要配显示器</b><span>不急。先用 MacBook Pro 自己的屏，觉得在宿舍需要大屏再买 27 英寸 4K（Mac 接 2K 屏文字会发虚）。Mac 接显示器用 USB-C/雷雳线就行，没有戴尔那个 HDMI 1.4 的问题。</span></div>
-    <div><b>关于 CUDA</b><span>如果以后有课要用 NVIDIA 显卡跑 CUDA（深度学习一类），Mac 跑不了。这类任务可以交给学校服务器或按小时租用的云 GPU，日常仍然用 Mac，不影响这个选择。</span></div>
-    <div><b>什么时候买</b><span>Apple 的教育价全年都有，现在买和以后买价格一样。明年 6–9 月的返校季通常还会送赠品，不急的话可以等；电脑已经影响学习了就现在买。</span></div>
-  </div>
+<section id="specs"><div class="wrap">
+  <div class="sec-head"><p class="eyebrow">规格对比</p><h2>各方案的主机放在一起看</h2><p>只列每个方案里新买的主机。浅色高亮是这一列里的最高值。</p></div>
+  <div class="tbl-wrap"><table class="sp">
+    <thead><tr><th>方案</th><th>主机</th><th>芯片</th><th>CPU / GPU 核心</th><th>内存</th><th>起步存储</th><th>散热与噪音</th><th>能跑 CUDA</th><th>核对后价格</th></tr></thead>
+    <tbody>
+      <tr class="cur"><td><span class="letter fam-none">现</span></td><td>戴尔 Vostro 15 5510（现在）</td><td>i7-11370H + MX450</td><td class="num">4 核 / —</td><td class="num">32GB（已到上限）</td><td>—</td><td>风扇</td><td>能（2GB 显存）</td><td>—</td></tr>
+      <tr><td><span class="letter fam-desk">C D</span></td><td>Mac mini</td><td>M6</td><td class="num">12 / 12</td><td class="num">16GB</td><td class="num">256GB</td><td class="hl">几乎静音</td><td>不能</td><td class="num">¥8,200–13,000</td></tr>
+      <tr><td><span class="letter fam-port">E</span></td><td>MacBook Air 15</td><td>M5</td><td class="num">10 / 10</td><td class="num">16GB</td><td class="num">512GB</td><td class="hl">无风扇，静音</td><td>不能</td><td class="num">¥11,249</td></tr>
+      <tr><td><span class="letter fam-desk">F G</span></td><td>Mac Studio</td><td class="hl">M5 Max</td><td class="num hl">18 / 32</td><td class="num hl">36GB 统一内存</td><td class="num">512GB</td><td class="hl">满载也很安静</td><td>不能</td><td class="num">¥20,400–24,500</td></tr>
+      <tr><td><span class="letter fam-port">H</span></td><td>MacBook Pro 16</td><td>M5 Pro</td><td class="num">18 / 20</td><td class="num">24GB</td><td class="num">1TB</td><td>风扇</td><td>不能</td><td class="num">¥23,399</td></tr>
+      <tr><td><span class="letter fam-win">I</span></td><td>CUDA 台式机</td><td>RTX 5070 Ti / 5080</td><td>—</td><td class="num">32GB + 16GB 显存</td><td>按配置</td><td>风扇，满载较响</td><td class="hl">能</td><td class="num">¥23,000–28,000</td></tr>
+      <tr><td><span class="letter fam-win">J</span></td><td>ROG 枪神9 超竞版</td><td>U9 275HX + RTX 5080</td><td>—</td><td class="num">32GB + 16GB 显存</td><td class="num">1TB</td><td>风扇，满载很响</td><td class="hl">能</td><td class="num">¥23,000–25,000</td></tr>
+      <tr><td><span class="letter fam-win">K</span></td><td>ROG 台式机</td><td>U9 285K + RTX 5080</td><td>—</td><td class="num">32GB + 16GB 显存</td><td class="num hl">2TB</td><td>风扇</td><td class="hl">能</td><td class="num">¥32,000–38,000</td></tr>
+    </tbody>
+  </table></div>
+  <p class="sp-note">Mac 的内存由 CPU 和 GPU 共用，跑本地大模型时大部分都能当显存用；Windows 方案的 32GB 内存和 16GB 显存是分开的。Apple 价格为官网教育价，Windows 价格为 11 月电商/渠道参考价。</p>
 </div></section>
 
 
@@ -348,7 +341,7 @@ footer{padding-block:28px 48px;font-size:12.5px;color:var(--faint);border-top:1p
 </div></section>
 
 <section id="roadmap"><div class="wrap">
-  <div class="sec-head"><p class="eyebrow">短期与长期</p><h2>三条可以走 3–5 年的路线</h2><p>电脑不必一次买齐。下面每条路线都让第一步买的东西在后面继续有用，避免买了又闲置。</p></div>
+  <div class="sec-head"><p class="eyebrow">短期与长期</p><h2>四条可以走 3–5 年的路线</h2><p>电脑不必一次买齐。下面每条路线都让第一步买的东西在后面继续有用，避免买了又闲置。</p></div>
   <div class="routes">
     <div class="route">
       <span class="pill st-ok">路线一 · 稳妥两步走</span>
@@ -375,16 +368,28 @@ footer{padding-block:28px 48px;font-size:12.5px;color:var(--faint);border-top:1p
       <p class="cost">现在先花 <strong class="num">¥2,000–2,700</strong>；主机等价格回落再买。按 11 月行情装 I 需要约 <strong class="num">¥23,000–28,000</strong>，行情回落后可能回到原来估的 ¥16,000–24,000。</p>
     </div>
     <div class="route">
-      <span class="pill st-up">路线三 · 一台走天下（我选这条）</span>
-      <h3>直接买 MacBook Pro 14</h3>
-      <p class="who">适合：电脑老了要换、不玩游戏、家和宿舍来回跑的人，也就是我现在的情况。</p>
+      <span class="pill st-up">路线三 · 一步到位的桌面工作站</span>
+      <h3>家里放 Mac Studio（F / G）</h3>
+      <p class="who">适合：在家时间多、想一次配到位、以后可能做视频或本地大模型的人。</p>
       <ol class="steps">
-        <li><span class="when">现在</span><span>买 MacBook Pro 14（M5 Pro，24GB + 1TB，教育价 ¥18,799）。家、宿舍、教室都用这一台，文件和环境不用同步。</span></li>
-        <li><span class="when">第一个月</span><span>把常用资料迁过来；戴尔继续当第二台电脑，跑 Windows 软件。</span></li>
-        <li><span class="when">需要大屏时</span><span>在常待的那一边补一台 27 英寸 4K 显示器（B），一根 USB-C/雷雳线接上。</span></li>
-        <li><span class="when">长期</span><span>24GB 内存加 Pro 芯片，用 5–7 年没有压力；要跑 CUDA 时交给学校服务器或云 GPU。</span></li>
+        <li><span class="when">现在</span><span>家里放 Mac Studio（M5 Max，36GB）加一台 27 英寸 4K 显示器。</span></li>
+        <li><span class="when">宿舍</span><span>继续用戴尔；G 方案再给宿舍配一台显示器，戴尔接上就是大屏。</span></li>
+        <li><span class="when">需要时</span><span>在宿舍用戴尔远程连回家里的 Studio，重的任务交给它跑。</span></li>
+        <li><span class="when">长期</span><span>18 核 CPU、32 核 GPU、36GB 统一内存，是这几个 Mac 方案里余量最大的，用 6–8 年不容易落后。</span></li>
       </ol>
-      <p class="cost">一次性 <strong class="num">¥18,799</strong>；预算紧可以选 MacBook Pro 14 M6（<strong class="num">¥15,199</strong>，建议加到 24GB 内存）或 Air 15（<strong class="num">¥11,249</strong>）。</p>
+      <p class="cost">一次性 <strong class="num">¥20,400–21,500</strong>（F）或 <strong class="num">¥22,400–24,500</strong>（G）。</p>
+    </div>
+    <div class="route">
+      <span class="pill st-warn">路线四 · 一台笔记本走天下</span>
+      <h3>买 MacBook（E / H）</h3>
+      <p class="who">适合：家和宿舍之间经常带着电脑走的人。</p>
+      <ol class="steps">
+        <li><span class="when">现在</span><span>买 E（¥11,249）或 H（¥23,399）。家和宿舍用同一台，文件不用同步。</span></li>
+        <li><span class="when">第一个月</span><span>常用资料迁过来；戴尔继续当第二台电脑，跑 Windows 软件。</span></li>
+        <li><span class="when">需要大屏时</span><span>在常待的那一边补一台 4K 显示器（B）。</span></li>
+        <li><span class="when">长期</span><span>MacBook 系统更新支持一般 6–7 年以上，二手价格也稳。</span></li>
+      </ol>
+      <p class="cost">一次性 <strong class="num">¥11,249</strong>（E）或 <strong class="num">¥23,399</strong>（H）；E 无风扇，H 约 2.1 千克。</p>
     </div>
   </div>
 </div></section>
@@ -443,7 +448,7 @@ const PLANS = [
   basis:'不涉及购买。',
   media:{img:'dell',blend:true,thumbs:['dellPorts','dellTop'],cap:'戴尔 Vostro 15 5510 · 图片来自',link:'https://www.dell.com/en-us/shop/dell-vostro-15-5510-laptop/spd/vostro-15-5510-laptop',linkText:'戴尔官网'},
   pros:['i7-11370H + 32GB 内存，写代码、开虚拟机、做数据分析都还够用','零支出，钱留到显卡和内存回落之后','有雷电 4，以后接显示器、扩展坞都方便','还有一个空的 M.2 2230 硬盘位，加 SSD 就能扩容'],
-  cons:['15.6 英寸 1080p 60Hz、250–300 尼特的屏幕，长时间看代码和文献累眼','MX450 只有 2GB 显存，正经训练和 3A 游戏都不行','约五年的机器，电池标称 300 次循环寿命，续航大概已明显缩水','内存已到 32GB 官方上限，没法再加'],
+  cons:['15.6 英寸 1080p 60Hz、250–300 尼特的屏幕，长时间看代码和文献累眼','MX450 只有 2GB 显存，正经训练和 3A 游戏都不行','用了 4 年，电池标称 300 次循环寿命，续航通常已明显缩水','内存已到 32GB 官方上限，没法再加'],
   short:'日常学习完全撑得住。真正卡住我的是屏幕和显卡，不是 CPU 和内存。花几百元换电池、加 SSD 还能再顺一点。',
   long:'换新电脑后继续当第二台电脑用，跑 Windows 软件；但不适合再当主力用好几年。',
   fit:'戴尔还能用、这学期没有硬性新需求、想等明年返校季的人。'},
@@ -482,7 +487,7 @@ const PLANS = [
   orig:[11249,11249],now:[11249,11249],priceText:'¥11,249 起',status:'ok',statusText:'准确（教育价）',
   basis:'官网教育商店 15 英寸 MacBook Air（M5，10 核 CPU / 10 核 GPU，16GB + 512GB）¥11,249；零售价 ¥11,999。',
   media:{img:'air',thumbs:['airLife'],cap:'MacBook Air 13 / 15 英寸（M5）· 图片来自 apple.com.cn'},
-  pros:['唯一一个家和宿舍体验同时提升的苹果方案','15 英寸屏幕可以并排两份文档，无风扇完全静音','续航一整天，去教室、图书馆不用找插座','起步就是 16GB + 512GB，够用很多年'],
+  pros:['家和宿舍用同一台，文件不用同步','15 英寸屏幕可以并排两份文档，无风扇完全静音','续航一整天，去教室、图书馆不用找插座','起步就是 16GB + 512GB，够用很多年'],
   cons:['无风扇，长时间满载（长视频导出、大项目编译）会降频','不能跑 CUDA，游戏支持有限','一台机器来回带，忘带或损坏就两边都没得用','起步价比 13 英寸（教育价 ¥9,249）贵 ¥2,000'],
   short:'买回来当天就能接替戴尔做主力，戴尔留着跑 Windows 专用软件。',
   long:'MacBook Air 通常能用 6 年以上。以后在常待的那一边补一台 4K 显示器，就同时有了便携机和大屏工位。',
@@ -492,21 +497,21 @@ const PLANS = [
   orig:[20400,21500],now:[20400,21500],priceText:'约 ¥20,400–21,500',status:'ok',statusText:'准确',
   basis:'Mac Studio（M5 Max，18 核 CPU / 32 核 GPU，36GB + 512GB）教育价 ¥18,399（零售 ¥19,999），加显示器 ¥2,000–3,100。',
   media:{img:'studioDesk',thumbs:['studio','studioBack'],cap:'Mac Studio（M5 Max）· 图片来自 apple.com.cn'},
-  pros:['M5 Max 适合 8K 剪辑、3D 渲染、本地跑大语言模型','36GB 统一内存可以全部给 GPU 用，跑本地模型比同价位显卡显存大','满载也很安静，接口非常多','用 5 年以上性能依然够'],
-  cons:['花了两万，宿舍体验却完全没变','不能跑 CUDA，游戏仍然受限','大部分学生用不满 M5 Max 的性能','两万元可以买 E + 4K 显示器 + 很长时间的云 GPU'],
-  short:'家里有了专业级工作站，但只在回家时才用得上。',
-  long:'性能余量最大的 Mac 方案，适合未来几年会做视频、三维或本地大模型的人。',
-  fit:'已经确定要做重度创作或本地大模型、在家时间很多、预算充足的人。'},
+  pros:['M5 Max（18 核 CPU / 32 核 GPU），8K 剪辑、3D 渲染、本地大模型都能胜任','36GB 统一内存，CPU 和 GPU 共用，跑本地模型时可用的显存比 RTX 5080 的 16GB 大','满载也很安静，接口非常多','和 iPhone、iPad 之间可以隔空投送、通用控制，资料来回很方便','余量大，用 6–8 年都不容易落后'],
+  cons:['宿舍那边仍然是戴尔（G 方案给宿舍加了显示器）','不能跑 CUDA，游戏选择少','比 Mac mini 方案贵约一万元'],
+  short:'家里有一台性能最强的 Mac 工作站；在宿舍可以用戴尔远程连回去。',
+  long:'这几个 Mac 方案里性能余量最大，买一次能用很多年。',
+  fit:'在家时间多、以后可能做视频、三维或本地大模型、想一次配到位的人。'},
 
  {id:'G',fam:'desk',name:'Mac Studio 双工作站',tag:'Studio 在家，宿舍再加一台显示器',home:'Studio + 显示器',dorm:'戴尔 + 显示器',
   orig:[22400,24500],now:[22400,24500],priceText:'约 ¥22,400–24,500',status:'ok',statusText:'准确',
   basis:'F 的价格再加宿舍一台 ¥2,000–3,100 的显示器。',
   media:{img:'studio',thumbs:['studioDesk','studioBack'],cap:'Mac Studio（M5 Max）· 图片来自 apple.com.cn'},
-  pros:['两边都有大屏，宿舍的戴尔也被改善','家里的 Studio 可以远程访问，宿舍用戴尔连回去跑任务'],
-  cons:['宿舍主力仍是戴尔，所谓“双工作站”其实只有一台主机','总价 ¥2.2 万以上，接近 H 或 I 的价格','远程访问依赖家里网络和上行带宽'],
+  pros:['F 的全部优点','两边都有大屏，宿舍的戴尔也能接 4K 显示器','宿舍用戴尔远程连回家里的 Studio 跑任务','宿舍那台显示器以后换任何电脑都能继续用'],
+  cons:['宿舍的主机仍是戴尔，只是多了一块大屏','总价 ¥2.2 万以上','远程访问依赖家里网络和上行带宽'],
   short:'和 F 相同，只是宿舍多了块大屏。',
-  long:'这套组合在 11 个方案里性价比偏低。真想两边都强，B + E，或者 C + E 更合理。',
-  fit:'家里需要 Studio 级别性能、宿舍又只需要大屏的人。多数情况下不推荐。'},
+  long:'性能和 F 一样；宿舍多出的显示器长期都用得上。',
+  fit:'家里要高性能、宿舍也想要大屏的人。'},
 
  {id:'H',fam:'port',name:'MacBook Pro 16 英寸',tag:'把工作站背在身上',home:'无固定设备（带回家）',dorm:'Pro + 戴尔',
   orig:[23399,23399],now:[23399,23399],priceText:'¥23,399 起',status:'ok',statusText:'准确（教育价）',
@@ -516,7 +521,7 @@ const PLANS = [
   cons:['约 2.1 千克，天天背着上课偏重','价格是 Air 15 的两倍多','不能跑 CUDA，游戏受限','如果不是持续重负载，性能用不满'],
   short:'一台机器同时覆盖家、宿舍和外出，重负载任务也能随时做。',
   long:'Pro 机型用 6–8 年都不过时，二手价格也稳。',
-  fit:'经常剪辑多轨视频、编译大型项目，并且需要随身带的人。14 英寸 M6 版教育价 ¥15,199，可以先比较一下。'},
+  fit:'经常剪辑多轨视频、编译大型项目，并且需要随身带的人。'},
 
  {id:'I',fam:'win',name:'实用型 CUDA 台式机',tag:'家里装一台能训练模型的主机',home:'Windows 主机 + 显示器',dorm:'戴尔',
   orig:[16000,24000],now:[23000,28000],priceText:'约 ¥23,000–28,000',status:'up',statusText:'上调',
@@ -554,12 +559,12 @@ const rng = a => a[0]===a[1] ? fmt(a[0]) : fmt(a[0])+'–'+fmt(a[1]).slice(1);
 const ST = {ok:'st-ok',warn:'st-warn',up:'st-up'};
 
 document.getElementById('dellMount').outerHTML = `<section id="mydell"><div class="wrap">
-  <div class="sec-head"><p class="eyebrow">现在的电脑</p><h2>戴尔 Vostro 15 5510：还能用，但屏幕、显卡和电池都跟不上了</h2><p>下面的规格来自戴尔官方用户手册，和我电脑系统信息里的配置（i7-11370H、32GB、Iris Xe + MX450）一致。</p></div>
+  <div class="sec-head"><p class="eyebrow">现在的电脑</p><h2>戴尔 Vostro 15 5510 的规格</h2><p>下面的规格来自戴尔官方用户手册，和我电脑系统信息里的配置（i7-11370H、32GB、Iris Xe + MX450）一致。</p></div>
   <div class="dell">
     <figure class="dell-photo"><img src="${IMG.dell.src}" alt="戴尔 Vostro 15 5510 官方产品图"><div class="thumbs"><img src="${IMG.dellPorts.src}" alt="Vostro 15 5510 背面接口"><img src="${IMG.dellTop.src}" alt="Vostro 15 5510 键盘俯视"></div><figcaption>戴尔 Vostro 15 5510 · 图片来自 <a href="https://www.dell.com/en-us/shop/dell-vostro-15-5510-laptop/spd/vostro-15-5510-laptop" target="_blank" rel="noopener">戴尔官网</a></figcaption></figure>
     <div class="dell-body">
       <dl class="spec">
-        <div><dt>处理器</dt><dd>i7-11370H（4 核 8 线程，2021 年）</dd></div>
+        <div><dt>处理器</dt><dd>i7-11370H（第 11 代酷睿，4 核 8 线程）</dd></div>
         <div><dt>内存</dt><dd>32GB DDR4-3200，两条插槽，<b>已是官方上限</b></dd></div>
         <div><dt>显卡</dt><dd>Iris Xe 核显 + MX450 独显（<b>2GB</b> GDDR5）</dd></div>
         <div><dt>屏幕</dt><dd>15.6 英寸 1080p <b>60Hz</b>，250 或 300 尼特，141 ppi</dd></div>
@@ -570,19 +575,17 @@ document.getElementById('dellMount').outerHTML = `<section id="mydell"><div clas
       </dl>
       <div class="dell-cols">
         <div class="pro"><h4>它还能做好的</h4><ul><li>写代码、开 IDE 和浏览器几十个标签、跑 Docker 或虚拟机：32GB 内存比很多新 MacBook Air 的起步配置还大</li><li>Python 数据分析、课程作业、Office、网课</li><li>通过雷电 4 接 4K 显示器和扩展坞，变成一个像样的桌面工位</li><li>MX450 支持 CUDA，能跑通课程代码和很小的模型</li></ul></div>
-        <div class="con"><h4>它的短板</h4><ul><li>1080p 60Hz 小屏，长时间看代码和文献最累</li><li>2GB 显存，稍微正经一点的训练和 3A 游戏都不行</li><li>用了约五年，电池大概率已经明显衰减</li><li>内存到顶，以后没法再加</li></ul></div>
+        <div class="con"><h4>它的短板</h4><ul><li>1080p 60Hz 小屏，长时间看代码和文献最累</li><li>2GB 显存，稍微正经一点的训练和 3A 游戏都不行</li><li>用了 4 年，电池容量通常已有明显衰减</li><li>内存到顶，以后没法再加</li></ul></div>
       </div>
       <div class="flag st-warn"><b>接显示器一定要走 USB-C 或雷电 4 口。</b>这台的 HDMI 只有 1.4 版，接 4K 屏最多 30Hz，鼠标都会拖影。用 USB-C 转 DP 线（或显示器自带的 USB-C 输入）才能跑 4K 60Hz 及以上。另外 Iris Xe 和 MX450 带不动 4K 游戏，在 4K 屏上玩游戏要把分辨率调到 1080p。</div>
       <div class="dell-tips">
-        <div><b>它现在的问题能不能修</b><span>只能缓解：换一块原厂电池（手册注明电池可更换）；在空着的 M.2 2230 位加一块 SSD。这两项都是几百元，但屏幕、显卡和内存上限都改不了。</span></div>
+        <div><b>可以补的地方</b><span>换一块原厂电池（手册注明电池可更换）；在空着的 M.2 2230 位加一块 SSD。这两项都是几百元，但屏幕、显卡和内存上限都改不了。</span></div>
         <div><b>换了以后它做什么</b><span>继续用。跑只有 Windows 版的软件和作业，放在宿舍或家里当第二台电脑；我也装了网易 UU 远程，需要时可以远程用它。</span></div>
       </div>
     </div>
   </div>
 </div></section>
 `;
-
-document.querySelectorAll('img[data-img]').forEach(el=>{el.src=IMG[el.dataset.img].src});
 
 /* check table */
 document.querySelector('#checkTable tbody').innerHTML = PLANS.map(p=>{
@@ -669,10 +672,10 @@ document.querySelectorAll('.filters button').forEach(b=>b.addEventListener('clic
 /* matrix */
 const DIMS = ['宿舍','在家','移动','CUDA/AI','游戏','安静省电','保值','花费'];
 const SC = {A:[2,2,3,2,2,3,3,5],B:[3,2,3,2,3,3,4,5],C:[2,5,3,2,1,5,4,4],D:[5,2,3,2,1,5,4,4],E:[4,4,5,2,1,5,4,4],F:[2,5,3,3,1,5,4,2],G:[3,5,3,3,1,5,4,2],H:[4,4,4,3,2,4,4,2],I:[2,5,3,5,5,2,2,3],J:[4,4,2,4,5,1,2,2],K:[2,5,3,5,5,2,2,1]};
-document.querySelector('#mx thead').innerHTML = `<tr><th>方案</th>${DIMS.map(d=>`<th>${d}</th>`).join('')}<th>合计</th></tr>`;
+document.querySelector('#mx thead').innerHTML = `<tr><th>方案</th>${DIMS.map(d=>`<th>${d}</th>`).join('')}</tr>`;
 document.querySelector('#mx tbody').innerHTML = PLANS.map(p=>{
   const s=SC[p.id];
-  return `<tr><td><div class="plan-cell"><span class="letter fam-${p.fam}">${p.id}</span>${p.name}</div></td>${s.map(v=>`<td><span class="dots" aria-label="${v} 分">${[1,2,3,4,5].map(i=>`<i class="${i<=v?'on':''}"></i>`).join('')}</span></td>`).join('')}<td class="num"><strong>${s.reduce((a,b)=>a+b,0)}</strong></td></tr>`}).join('');
+  return `<tr><td><div class="plan-cell"><span class="letter fam-${p.fam}">${p.id}</span>${p.name}</div></td>${s.map(v=>`<td><span class="dots" aria-label="${v} 分">${[1,2,3,4,5].map(i=>`<i class="${i<=v?'on':''}"></i>`).join('')}</span></td>`).join('')}</tr>`}).join('');
 </script>
 
 </body>
