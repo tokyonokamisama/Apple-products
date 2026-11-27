@@ -111,19 +111,20 @@ function frame(now){
   document.body.classList.toggle('hide-cursor', idle);
   const dt = Math.min((now-prevNow)/1000, 0.1); prevNow = now;
   const pts = [];
-  const userActive = pointerIn && !idle;
   if (pointerIn) pts.push([px,py]);
   const n = reduce ? 0 : (cfg.fingers|0);
-  if (!userActive && n > 0){
+  if (idle && n > 0){
     clock += dt*cfg.speed;
     for (let j=0;j<n;j++){
       const [tx,ty] = pathPos(j), v = vf[j];
       if (v[0] < -1e3){ v[0] = j===0 && pointerIn ? px : tx; v[1] = j===0 && pointerIn ? py : ty; }
-      const e = 1 - Math.pow(0.02, dt);          // frame-rate independent easing
-      v[0] += (tx-v[0])*e; v[1] += (ty-v[1])*e;
+      // glide toward the path at a finger-like speed, never a sweep
+      const dx = tx-v[0], dy = ty-v[1], d = Math.hypot(dx,dy);
+      const vmax = 0.3*Math.max(W,H)*cfg.speed*dt;
+      if (d > vmax){ v[0] += dx/d*vmax; v[1] += dy/d*vmax; } else { v[0] = tx; v[1] = ty; }
       pts.push(v);
     }
-    if (pointerIn && idle) pts.shift();       // the resting mouse stops counting once the fingers take over
+    if (pointerIn) pts.shift();               // the resting mouse stops counting once the fingers take over
   } else if (pointerIn) { vf[0][0]=px; vf[0][1]=py; }
   const R = S*cfg.radius, R2 = R*R;
   const k = cfg.eco ? 0.26 : 0.16;
