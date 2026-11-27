@@ -27,6 +27,10 @@
 
 `plan/index.html` 是一个独立的单页（图片全部内嵌，不依赖站点其他文件）：给家长看的换电脑说明，包括现在这台戴尔 Vostro 15 5510 的问题、想换的 MacBook Pro 14，以及 11 个方案的价格核对、优缺点和长期路线。部署后地址为 `https://<用户名>.github.io/<仓库名>/plan/`。
 
+## 苹果格子动态壁纸
+
+`wallpaper/index.html` 是一个独立的全屏动态壁纸页：黑白苹果 logo 格子，鼠标经过翻转、点击放出波纹，鼠标静止时自动流动。按 `S` 打开设置（格子大小、配色、速度、省电模式），按 `F` 全屏。部署后地址为 `https://<用户名>.github.io/<仓库名>/wallpaper/`，可以填进 Lively Wallpaper（Windows）或 Plash（macOS）当桌面壁纸。
+
 ## 本地运行
 
 纯静态网站，无需安装依赖或构建。由于使用 ES Module，需要通过本地服务器打开（直接双击 `index.html` 无法加载模块）：
