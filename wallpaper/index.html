@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#000000">
 <title>苹果格子壁纸</title>
-<meta name="description" content="黑白苹果 logo 格子动态壁纸：鼠标或手指经过时黑白翻转。">
+<meta name="description" content="黑白苹果 logo 格子动态壁纸：经过的格子黑白翻转，没人操作时会自己慢慢滑动。">
 <style>
 /* Layout: one full-screen canvas; a small settings panel that hides itself when the pointer is still. Deliberately single-theme (black/white). */
 :root{--ink:#000;--paper:#fff;--glass:rgba(22,22,24,.72);--line:rgba(255,255,255,.16);--text:#f5f5f7;--muted:#a1a1a6;--accent:#0a84ff;color-scheme:dark;
@@ -47,11 +47,13 @@ kbd{font-family:inherit;background:rgba(255,255,255,.12);border-radius:4px;paddi
   <h1>壁纸设置</h1>
   <div class="row"><label>格子大小</label><div class="seg" data-key="size"><button type="button" data-v="56">小</button><button type="button" data-v="80">中</button><button type="button" data-v="112">大</button><button type="button" data-v="160">特大</button></div></div>
   <div class="row"><label>配色</label><div class="seg" data-key="theme"><button type="button" data-v="classic">黑白</button><button type="button" data-v="soft">柔和灰</button><button type="button" data-v="night">夜间</button></div></div>
-  <div class="row"><label for="radius">鼠标影响范围</label><input id="radius" type="range" min="1" max="4" step="0.1"></div>
+  <div class="row"><label>自动滑动的手指</label><div class="seg" data-key="fingers"><button type="button" data-v="0">关</button><button type="button" data-v="1">1 根</button><button type="button" data-v="2">2 根</button><button type="button" data-v="3">3 根</button></div></div>
+  <div class="row"><label for="speed">滑动速度</label><input id="speed" type="range" min="0.2" max="2.5" step="0.1"></div>
+  <div class="row"><label for="radius">翻转范围</label><input id="radius" type="range" min="1" max="4" step="0.1"></div>
   <div class="sw"><label for="spin">翻转时转动 logo</label><input id="spin" type="checkbox"></div>
   <div class="sw"><label for="eco">省电模式（30 帧）</label><input id="eco" type="checkbox"></div>
   <div class="btns"><button type="button" class="primary" id="fs">全屏</button><button type="button" id="reset">恢复默认</button></div>
-  <p class="keys"><kbd>F</kbd> 全屏 · <kbd>S</kbd> 设置。鼠标或手指经过的格子会黑白翻转；鼠标静止 3 秒后，按钮和指针自动隐藏。</p>
+  <p class="keys"><kbd>F</kbd> 全屏 · <kbd>S</kbd> 设置。经过的格子会黑白翻转。没人操作 3 秒后，看不见的“手指”会接着自己滑，按钮和指针也会隐藏。</p>
 </div>
 
 <script>
@@ -59,7 +61,7 @@ kbd{font-family:inherit;background:rgba(255,255,255,.12);border-radius:4px;paddi
 /* Apple logo path from the apple.com.cn global nav; bbox centre (7, 20.22), height 15.94 */
 const LOGO = new Path2D('m13.0729 17.6825a3.61 3.61 0 0 0 -1.7248 3.0365 3.5132 3.5132 0 0 0 2.1379 3.2223 8.394 8.394 0 0 1 -1.0948 2.2618c-.6816.9812-1.3943 1.9623-2.4787 1.9623s-1.3633-.63-2.613-.63c-1.2187 0-1.6525.6507-2.644.6507s-1.6834-.9089-2.4787-2.0243a9.7842 9.7842 0 0 1 -1.6628-5.2776c0-3.0984 2.014-4.7405 3.9969-4.7405 1.0535 0 1.9314.6919 2.5924.6919.63 0 1.6112-.7333 2.8092-.7333a3.7579 3.7579 0 0 1 3.1604 1.5802zm-3.7284-2.8918a3.5615 3.5615 0 0 0 .8469-2.22 1.5353 1.5353 0 0 0 -.031-.32 3.5686 3.5686 0 0 0 -2.3445 1.2084 3.4629 3.4629 0 0 0 -.8779 2.1585 1.419 1.419 0 0 0 .031.2892 1.19 1.19 0 0 0 .2169.0207 3.0935 3.0935 0 0 0 2.1586-1.1368z');
 const THEMES = { classic:[[0,0,0],[255,255,255]], soft:[[28,28,30],[229,229,234]], night:[[0,0,0],[58,58,62]] };
-const DEF = { size:80, theme:'classic', radius:2.2, spin:true, eco:false };
+const DEF = { size:80, theme:'classic', radius:2.2, spin:true, eco:false, fingers:1, speed:1 };
 let cfg = {...DEF};
 try { cfg = {...DEF, ...JSON.parse(localStorage.getItem('apple-wall') || '{}')}; } catch(e) {}
 const save = () => { try { localStorage.setItem('apple-wall', JSON.stringify(cfg)); } catch(e) {} };
@@ -91,6 +93,14 @@ function tile(c,r,f){
   ctx.fill(LOGO); ctx.restore();
 }
 
+/* invisible fingers: each follows its own slow Lissajous path; easing hides any jump */
+let clock = 0, prevNow = performance.now();
+const vf = [[-1e4,-1e4],[-1e4,-1e4],[-1e4,-1e4]];
+function pathPos(j){
+  const t = clock;
+  return [ (Math.sin(t*0.37 + j*2.1)*0.40 + Math.sin(t*0.13 + 1.7 + j)*0.07 + 0.5)*W,
+           (Math.cos(t*0.29 + j*1.3)*0.36 + Math.sin(t*0.17 + j*0.7)*0.07 + 0.5)*H ];
+}
 let last = 0, full = true;
 function frame(now){
   requestAnimationFrame(frame);
@@ -99,12 +109,28 @@ function frame(now){
   const idle = now - lastMove > 3000;
   document.body.classList.toggle('idle', idle && document.getElementById('panel').hidden);
   document.body.classList.toggle('hide-cursor', idle);
-  const mx = pointerIn ? px : -1e4, my = pointerIn ? py : -1e4;
-  const R = S*cfg.radius;
+  const dt = Math.min((now-prevNow)/1000, 0.1); prevNow = now;
+  const pts = [];
+  const userActive = pointerIn && !idle;
+  if (pointerIn) pts.push([px,py]);
+  const n = reduce ? 0 : (cfg.fingers|0);
+  if (!userActive && n > 0){
+    clock += dt*cfg.speed;
+    for (let j=0;j<n;j++){
+      const [tx,ty] = pathPos(j), v = vf[j];
+      if (v[0] < -1e3){ v[0] = j===0 && pointerIn ? px : tx; v[1] = j===0 && pointerIn ? py : ty; }
+      const e = 1 - Math.pow(0.02, dt);          // frame-rate independent easing
+      v[0] += (tx-v[0])*e; v[1] += (ty-v[1])*e;
+      pts.push(v);
+    }
+    if (pointerIn && idle) pts.shift();       // the resting mouse stops counting once the fingers take over
+  } else if (pointerIn) { vf[0][0]=px; vf[0][1]=py; }
+  const R = S*cfg.radius, R2 = R*R;
   const k = cfg.eco ? 0.26 : 0.16;
   for (let r=0;r<rows;r++) for (let c=0;c<cols;c++){
     const i=r*cols+c, cx=c*S+S/2, cy=r*S+S/2;
-    const target = Math.hypot(cx-mx,cy-my) < R ? 1 : 0;
+    let target = 0;
+    for (const q of pts){ const dx=cx-q[0], dy=cy-q[1]; if (dx*dx+dy*dy < R2){ target = 1; break; } }
     flip[i] += (target-flip[i])*k;
     if (Math.abs(flip[i]-target) < 0.002) flip[i]=target;
     if (full || Math.abs(flip[i]-drawn[i]) > 0.004){ tile(c,r,flip[i]); drawn[i]=flip[i]; }
@@ -123,14 +149,14 @@ cv.addEventListener('pointerup', e=>{ if (e.pointerType!=='mouse') pointerIn=fal
 const panel=document.getElementById('panel'), gear=document.getElementById('gear');
 function syncUI(){
   panel.querySelectorAll('.seg').forEach(s=>s.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed', String(String(cfg[s.dataset.key])===b.dataset.v))));
-  document.getElementById('radius').value=cfg.radius;
+  document.getElementById('radius').value=cfg.radius; document.getElementById('speed').value=cfg.speed;
   document.getElementById('spin').checked=cfg.spin; document.getElementById('eco').checked=cfg.eco;
 }
 function togglePanel(open){ panel.hidden = !(open ?? panel.hidden); gear.setAttribute('aria-expanded', String(!panel.hidden)); lastMove=performance.now(); }
 gear.onclick=()=>togglePanel();
 panel.querySelectorAll('.seg').forEach(s=>s.addEventListener('click',e=>{ const b=e.target.closest('button'); if(!b) return;
-  const key=s.dataset.key; cfg[key] = key==='size' ? +b.dataset.v : b.dataset.v; save(); syncUI(); if(key==='size') size(); full=true; }));
-['radius'].forEach(id=>document.getElementById(id).addEventListener('input',e=>{ cfg[id]=+e.target.value; save(); }));
+  const key=s.dataset.key; cfg[key] = (key==='size'||key==='fingers') ? +b.dataset.v : b.dataset.v; save(); syncUI(); if(key==='size') size(); full=true; }));
+['radius','speed'].forEach(id=>document.getElementById(id).addEventListener('input',e=>{ cfg[id]=+e.target.value; save(); }));
 ['spin','eco'].forEach(id=>document.getElementById(id).addEventListener('change',e=>{ cfg[id]=e.target.checked; save(); full=true; }));
 function fullscreen(){ const d=document; if(!d.fullscreenElement){ d.documentElement.requestFullscreen?.().catch(()=>{}); } else d.exitFullscreen?.(); }
 document.getElementById('fs').onclick=fullscreen;
